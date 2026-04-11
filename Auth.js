@@ -6,7 +6,8 @@ import {
     signInWithEmailAndPassword 
 } from './firebase-config.js';
 
-import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// Added getDoc to the import list below
+import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // Initialize Icons
 if (window.lucide) { lucide.createIcons(); }
@@ -26,16 +27,15 @@ const switchBtn = document.getElementById('switch-mode');
 const toggleText = document.getElementById('toggle-text');
 const mainTitle = document.getElementById('main-title');
 const nameField = document.getElementById('name-field');
-const roleField = document.getElementById('role-field'); // New
+const roleField = document.getElementById('role-field');
 const extraFields = document.getElementById('extra-fields');
-const levelGroup = document.getElementById('level-group'); // New
+const levelGroup = document.getElementById('level-group');
 const passwordInput = document.getElementById('password');
 const togglePassword = document.getElementById('togglePassword');
 const eyeIcon = document.getElementById('eye-icon');
-const roleSelect = document.getElementById('user-role-select'); // New
+const roleSelect = document.getElementById('user-role-select');
 
-// --- NEW: LECTURER UI LOGIC ---
-// Hides Level when 'Lecturer' is selected
+// --- LECTURER UI LOGIC ---
 if (roleSelect) {
     roleSelect.addEventListener('change', (e) => {
         if (e.target.value === 'lecturer') {
@@ -61,8 +61,6 @@ if (togglePassword) {
 switchBtn.addEventListener('click', (e) => {
     e.preventDefault();
     isLoginMode = !isLoginMode;
-    
-    // Elements to hide in Login mode
     const signupOnlyFields = [nameField, roleField, extraFields];
 
     if (isLoginMode) {
@@ -77,8 +75,6 @@ switchBtn.addEventListener('click', (e) => {
         toggleText.innerText = "Already have an account?";
         switchBtn.innerText = "Login";
         gsap.to(signupOnlyFields, { duration: 0.3, opacity: 1, display: "block", stagger: 0.05 });
-        
-        // Ensure Level is hidden if role was already set to Lecturer
         if (roleSelect.value === 'lecturer') levelGroup.style.display = 'none';
     }
 });
@@ -99,41 +95,60 @@ signupForm.addEventListener('submit', async (e) => {
 
     try {
         if (isLoginMode) {
-            await signInWithEmailAndPassword(auth, email, password);
-            window.location.href = "dashboard.html";
+            // LOGIN LOGIC
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // SMART ROUTING: Check role in Firestore
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            
+            if (userDoc.exists()) {
+                const userData = userDoc.data();
+                // Send to appropriate dashboard based on saved role
+                if (userData.role === 'lecturer') {
+                    window.location.href = "lecturer-dashboard.html";
+                } else {
+                    window.location.href = "dashboard.html";
+                }
+            } else {
+                window.location.href = "dashboard.html"; // Default fallback
+            }
+
         } else {
-            // 1. Create Auth User
+            // SIGNUP LOGIC
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
-            // 2. Capture Form Data
             const fullName = document.getElementById('full-name').value.trim();
-            const role = roleSelect.value; // DYNAMIC ROLE
+            const role = roleSelect.value; 
             const dept = document.getElementById('department').value;
-            
-            // 3. Level Logic: Save as null if Lecturer, otherwise save as String for consistency
             const rawLevel = document.getElementById('level').value;
             const level = (role === 'lecturer') ? "N/A" : rawLevel;
 
-            // 4. DATA HANDSHAKE: Save to 'students' collection (or you can rename to 'users')
-            await setDoc(doc(db, "students", user.uid), {
+            // Save user profile to "users" collection
+            await setDoc(doc(db, "users", user.uid), {
                 uid: user.uid,
                 name: fullName,
                 email: email,
                 dept: dept,
                 level: level, 
-                role: role, // Saves 'student' or 'lecturer'
+                role: role, 
                 createdAt: new Date()
             });
 
-            console.log("Success: Profile created for", fullName);
-            window.location.href = "dashboard.html"; 
+            // Immediate redirect after signup
+            if (role === 'lecturer') {
+                window.location.href = "lecturer-dashboard.html";
+            } else {
+                window.location.href = "dashboard.html";
+            }
         }
     } catch (error) {
         console.error("Auth Error:", error.code);
         let msg = "An error occurred. Please try again.";
         if (error.code === 'auth/email-already-in-use') msg = "Email already registered.";
         if (error.code === 'auth/invalid-credential') msg = "Incorrect email or password.";
+        if (error.code === 'auth/weak-password') msg = "Password is too weak.";
         
         alert(msg);
         submitBtn.disabled = false;
