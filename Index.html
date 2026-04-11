@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learnify | Smart Learning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="glass-container">
+        <header class="form-header">
+            <h1 class="brand-logo" id="main-title">Learnify<span>.com</span></h1>
+            <p class="brand-tagline">Where learning meets innovation</p>
+        </header>
+
+        <form id="signup-form">
+            <div id="name-field" class="input-group">
+                <label>Full Name</label>
+                <input type="text" id="full-name" placeholder="e.g. John Doe">
+            </div>
+
+            <div id="role-field" class="input-group">
+                <label>I am joining as a...</label>
+                <select id="user-role-select">
+                    <option value="student" selected>Student</option>
+                    <option value="lecturer">Lecturer</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Email Address</label>
+                <input type="email" id="email" placeholder="name@email.com" required>
+            </div>
+
+            <div id="extra-fields" class="input-row">
+                <div class="input-group">
+                    <label>Department</label>
+                    <select id="department">
+                        <option value="" disabled selected>Select</option>
+                        <option value="csc">Comp. Science</option>
+                        <option value="mcb">Microbiology</option>
+                        <option value="phy">Physics</option>
+                    </select>
+                </div>
+                <div class="input-group" id="level-group">
+                    <label>Level</label>
+                    <select id="level">
+                        <option value="" disabled selected>Select</option>
+                        <option value="100">100L</option>
+                        <option value="200">200L</option>
+                        <option value="300">300L</option>
+                        <option value="400">400L</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <div class="password-wrapper">
+                    <input type="password" id="password" placeholder="•••••" required>
+                    <div id="togglePassword" class="eye-box">
+                        <i data-lucide="eye" id="eye-icon"></i>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary" id="submit-btn">Start Learning</button>
+        </form>
+
+        <p class="footer-link">
+            <span id="toggle-text">Already have an account?</span> 
+            <a href="#" id="switch-mode">Login</a>
+        </p>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script type="module" src="Auth.js"></script>
+</body>
+</html>

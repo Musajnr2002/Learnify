@@ -1,0 +1,185 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Kodchasan', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #a8ff78 0%, #78ffd6 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.glass-container {
+    background: rgba(255, 255, 255, 0.9);
+    width: 100%;
+    max-width: 400px;
+    padding: 40px 30px;
+    border-radius: 25px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    text-align: center;
+}
+
+/* Header */
+.brand-logo {
+    font-size: 32px;
+    font-weight: 700;
+    color: #2d3436;
+    margin-bottom: 2px;
+}
+.brand-logo span { color: #28a745; }
+.brand-tagline {
+    font-size: 13px;
+    color: #636e72;
+    margin-bottom: 30px;
+}
+
+/* Input Groups */
+.input-group {
+    text-align: left;
+    margin-bottom: 15px;
+    overflow: hidden; /* Helps with GSAP sliding animation */
+}
+
+.input-group label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #2d3436;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+/* MODERN PASSWORD WRAPPER */
+.password-wrapper {
+    display: flex;
+    align-items: stretch;
+    background: #f1f3f5; /* Match your input background */
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: 0.3s;
+}
+
+.password-wrapper:focus-within {
+    border-color: #28a745;
+    background: #fff;
+}
+
+.password-wrapper input {
+    flex: 1;
+    border: none !important; /* Remove internal border */
+    background: transparent !important;
+    height: 45px;
+}
+
+.eye-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 15px;
+    cursor: pointer;
+    background: #e9ecef; /* Slightly darker box for the icon */
+    transition: 0.2s;
+}
+
+.eye-box:hover {
+    background: #dee2e6;
+}
+
+/* Icon Styling */
+.eye-box svg {
+    width: 18px;
+    height: 18px;
+    color: #636e72;
+    stroke-width: 2px;
+}
+
+/* Rest of the fields */
+input, select {
+    width: 100%;
+    height: 45px;
+    background: #f1f3f5;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    padding: 0 15px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+}
+
+input:focus, select:focus {
+    border-color: #28a745;
+    background: #fff;
+}
+
+.input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+/* Primary Button */
+.btn-primary {
+    width: 100%;
+    height: 50px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+    box-shadow: 0 8px 15px rgba(40, 167, 69, 0.2);
+}
+
+.btn-primary:hover {
+    background: #218838;
+    transform: translateY(-2px);
+}
+
+.footer-link {
+    margin-top: 20px;
+    font-size: 13px;
+    color: #636e72;
+}
+
+.footer-link a {
+    color: #28a745;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 480px) {
+    body {
+        padding: 15px; /* Less padding so the form can be wider */
+        align-items: flex-start; /* Start from top so keyboard doesn't block everything */
+        padding-top: 50px;
+    }
+
+    .glass-container {
+        padding: 30px 20px; /* Slimmer padding inside the box */
+        border-radius: 20px;
+    }
+
+    .input-row {
+        grid-template-columns: 1fr; /* Stack Dept and Level on top of each other */
+        gap: 10px;
+    }
+
+    .brand-logo {
+        font-size: 28px; /* Slightly smaller text for small screens */
+    }
+}
+
+
