@@ -181,5 +181,58 @@ input:focus, select:focus {
         font-size: 28px; /* Slightly smaller text for small screens */
     }
 }
+/* --- LECTURER SPECIFIC STYLING --- */
 
+/* Change the accent color to Blue for Lecturers */
+[data-page="lecturer"] .brand-logo span {
+    color: #3498db; /* Professional Blue */
+}
+
+[data-page="lecturer"] .btn-primary {
+    background: #3498db;
+    box-shadow: 0 8px 15px rgba(52, 152, 219, 0.2);
+}
+
+[data-page="lecturer"] .btn-primary:hover {
+    background: #2980b9;
+}
+
+[data-page="lecturer"] input:focus, 
+[data-page="lecturer"] select:focus,
+[data-page="lecturer"] .password-wrapper:focus-within {
+    border-color: #3498db;
+}
+
+/* --- FOOTER & SECRET ENTRANCE --- */
+
+.footer-link-container {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    text-align: center;
+}
+
+.staff-link {
+    display: inline-block;
+    color: #28a745; /* Matches student theme */
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 13px;
+    margin-top: 5px;
+    transition: 0.3s;
+}
+
+.staff-link:hover {
+    color: #218838;
+    text-decoration: underline;
+}
+
+/* Adjusting the back link on the lecturer page */
+.back-link {
+    margin-top: 15px;
+    display: block;
+    font-size: 12px;
+    color: #636e72;
+    text-decoration: none;
+}
 
