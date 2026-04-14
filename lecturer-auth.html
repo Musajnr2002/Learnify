@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learnify - Lecturer Portal</title>
+    <link rel="stylesheet" href="style.css"> <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+
+    <div class="glass-container">
+        <div class="auth-box">
+            <h1 id="main-title">Lecturer <span>Portal</span></h1>
+            <p id="subtitle">Access your staff dashboard</p>
+
+            <form id="signup-form" data-page="lecturer">
+                <div class="input-group" id="name-field">
+                    <label>Full Name</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="user"></i>
+                        <input type="text" id="full-name" placeholder="Dr. John Doe">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Staff Email</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="mail"></i>
+                        <input type="email" id="email" placeholder="staff@university.edu" required>
+                    </div>
+                </div>
+
+                <div class="input-group" id="extra-fields">
+                    <label>Department</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="book-open"></i>
+                        <select id="department">
+                            <option value="" disabled selected>Select Department</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Mathematics">Mathematics</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <div class="input-wrapper">
+                        <i data-lucide="lock"></i>
+                        <input type="password" id="password" placeholder="••••••••" required>
+                        <button type="button" id="togglePassword" class="eye-btn">
+                            <i data-lucide="eye" id="eye-icon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button type="submit" id="submit-btn" class="main-btn">Staff Login</button>
+            </form>
+
+            <div class="footer-links">
+                <p id="toggle-text">Already have a staff account?</p>
+                <button id="switch-mode" class="link-btn">Login</button>
+            </div>
+            
+            <div class="back-link">
+                <a href="index.html">← Back to Student Portal</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="Auth.js"></script>
+</body>
+</html>

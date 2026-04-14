@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Learnify | Smart Learning</title>
+    <title>Learnify | Student Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
@@ -16,23 +16,15 @@
             <p class="brand-tagline">Where learning meets innovation</p>
         </header>
 
-        <form id="signup-form">
+        <form id="signup-form" data-page="student">
             <div id="name-field" class="input-group">
                 <label>Full Name</label>
                 <input type="text" id="full-name" placeholder="e.g. John Doe">
             </div>
 
-            <div id="role-field" class="input-group">
-                <label>I am joining as a...</label>
-                <select id="user-role-select">
-                    <option value="student" selected>Student</option>
-                    <option value="lecturer">Lecturer</option>
-                </select>
-            </div>
-
             <div class="input-group">
                 <label>Email Address</label>
-                <input type="email" id="email" placeholder="name@email.com" required>
+                <input type="email" id="email" placeholder="student@email.com" required>
             </div>
 
             <div id="extra-fields" class="input-row">
@@ -74,6 +66,13 @@
             <span id="toggle-text">Already have an account?</span> 
             <a href="#" id="switch-mode">Login</a>
         </p>
+
+        <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.2); text-align: center;">
+            <p style="font-size: 0.85rem; color: #fff; opacity: 0.8;">
+                Are you a Staff member? <br>
+                <a href="lecturer-auth.html" style="color: #00ff88; font-weight: bold; text-decoration: none;">Access Lecturer Portal →</a>
+            </p>
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
