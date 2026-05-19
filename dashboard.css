@@ -22,9 +22,11 @@ body {
 
 /* --- Layout Engine --- */
 .dashboard-wrapper {
-    display: flex;
+    display: grid;
+    grid-template-columns: 260px 1fr 300px;
     width: 100%;
     height: 100vh;
+    background: var(--bg);
 }
 
 /* --- 1. Sidebar (Fixed Left) --- */
@@ -51,7 +53,6 @@ body {
 
 /* --- 2. Main Content (The Center) --- */
 .main-content { 
-    flex: 1; 
     padding: 30px; 
     overflow-y: auto; /* Allows scrolling only in the center */
     background: var(--bg);
@@ -80,11 +81,18 @@ body {
 /* --- 3. Right Panel (Fixed Right) --- */
 .right-panel { 
     width: 300px; 
-    min-width: 300px;
     background: white; 
     border-left: 1px solid var(--border); 
     padding: 30px 20px;
     height: 100vh;
+    position: sticky;
+    top: 0;
+    /*width: 300px; 
+    min-width: 300px;
+    background: white; 
+    border-left: 1px solid var(--border); 
+    padding: 30px 20px;
+    height: 100vh;*/
 }
 
 /* --- UI Elements --- */
@@ -219,84 +227,344 @@ body {
     height: 24px;
 }
 
-/* Mobile Styles */
-@media (max-width: 768px) {
-    /* Show the top bar on mobile */
+/* --- LECTURER FORM STYLING --- */
+.upload-form-container {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+}
+
+.form-group input, 
+.form-group select {
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    background: #fff;
+    transition: 0.3s ease;
+}
+
+.form-group input:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+}
+
+/* Side-by-side row for Code and Level */
+.upload-form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.upload-form-row .form-group {
+    flex: 1; /* Makes both inputs equal width */
+}
+
+.full-width {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* The "Post to Students" Button */
+.banner-btn.full-width {
+    width: 100%;
+    background-color: #28a745 !important; /* Forces the green color */
+    color: white !important;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    display: block;
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+}
+
+.banner-btn.full-width:hover {
+    background-color: #218838 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(40, 167, 69, 0.3);
+}
+/* The container for the table */
+.glass-container.table-responsive {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    margin-top: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+}
+
+/* The actual table */
+.table-responsive table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-responsive th {
+    text-align: left;
+    padding: 15px;
+    color: #475569;
+    font-weight: 600;
+    border-bottom: 2px solid #28a745; /* The green accent line */
+    background: #f8fafc;
+}
+
+.table-responsive td {
+    padding: 15px;
+    color: #1e293b;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* Styling for the 'No materials' message */
+.empty-state {
+    text-align: center;
+    padding: 40px !important;
+    color: #94a3b8;
+    font-style: italic;
+}
+/* --- THE FINAL TABLE POLISH --- */
+.table-responsive.glass-container {
+    background: #f8fbf9; /* Light professional tint */
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid #e0eee5;
+    margin-top: 25px;
+}
+
+.table-responsive table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-responsive th {
+    text-align: left;
+    padding: 15px;
+    color: #2c3e50;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #2ecc71; /* The signature green line */
+}
+
+.table-responsive td {
+    padding: 18px 15px;
+    color: #555;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+/* Make the 'Status' column stand out */
+.table-responsive td:last-child {
+    font-weight: 600;
+    color: #2ecc71;
+}
+/* Styling the Download button in the student table */
+.table-row-anim .banner-btn {
+    background: #3498db; /* Blue for student actions */
+    color: white;
+    border-radius: 6px;
+    padding: 6px 15px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.table-row-anim .banner-btn:hover {
+    background: #2980b9;
+    transform: scale(1.05);
+}
+
+/* --- MODERN RESPONSIVE ENGINE --- */
+
+/* Desktop (Screens wider than 1024px) */
+@media (min-width: 1025px) {
+    .mobile-header { display: none !important; }
+    
+    .dashboard-wrapper {
+        display: grid;
+        grid-template-columns: 260px 1fr 300px;
+        height: 100vh;
+        background: #f4f7f6;
+    }
+}
+
+/* Tablet & Mobile (Screens 1024px and below) */
+@media (max-width: 1024px) {
+    /* Force independent scroll layer layout structure */
+    html, body {
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+        height: auto !important;
+        min-height: 100vh;
+    }
+    
+    /* 1. Fixed App Header */
     .mobile-header {
-        display: flex;
+        display: flex !important;
         justify-content: space-between;
         align-items: center;
-        padding: 15px 25px;
-        background: white;
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-        border-bottom: 1px solid #eee;
-    }
-    /* Stack the top bar elements vertically on mobile */
-    .top-bar {
-        flex-direction: column-reverse; /* Name on top, Search below */
-        align-items: stretch;
-        gap: 15px;
-    }
-    .search-box {
-        width: 100%;
-        max-width: none;
-    }
-    .user-profile {
-        justify-content: space-between; /* Keeps name left, circle right */
-        width: 100%;
-    }
-
-    /* Hide sidebar by default and make it an overlay */
-    .sidebar {
+        padding: 0 16px;
+        height: 70px;
+        background: #ffffff;
         position: fixed;
-        left: -100%; /* Hidden off-screen */
         top: 0;
-        width: 250px;
-        height: 100vh;
-        z-index: 2000;
-        transition: 0.3s ease;
-        background: white;
-        box-shadow: 10px 0 30px rgba(0,0,0,0.1);
-    }
-
-    /* Class to slide sidebar in */
-    .sidebar.active {
         left: 0;
-    }
-    .main-content {
-        padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+        z-index: 9999 !important;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+        border-bottom: 1px solid rgba(0,0,0,0.06);
     }
 
+    .logo {
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
 
+    .header-actions {
+        display: flex !important;
+        align-items: center; 
+        gap: 12px;           
+        flex-direction: row !important; 
+    }
+
+    .mobile-username {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: #2c3e50;
+        max-width: 100px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; 
+    }
+
+    .mobile-initials {
+        width: 36px;
+        height: 36px;
+        margin: 0;
+        background: #2ecc71;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 0.8rem;
+        box-shadow: 0 4px 8px rgba(46, 204, 113, 0.2);
+    }
+
+    .menu-btn {
+        background: #f4f6f5;
+        border: none !important;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        color: #2c3e50;
+        z-index: 100001 !important;
+        pointer-events: auto !important;
+        transition: background 0.2s;
+    }
+
+    .menu-btn:active {
+        background: #e2e6e4;
+    }
+
+    /* 2. Content Adjustment */
     .dashboard-wrapper {
-        display: block; /* Stack everything */
+        display: block !important; 
+        padding-top: 85px; 
+        background: #f4f7f6;
+        min-height: 100vh;
+        overflow-y: visible !important;
+        box-sizing: border-box;
     }
 
     .main-content {
         padding: 20px;
+        width: 100%;
+        box-sizing: border-box;
+        overflow-y: visible !important;
     }
+
+    /* Hide redundant desktop panels */
+    .user-profile, .right-panel {
+        display: none !important;
+    }
+
+    /* 3. Modern Sidebar Slide-out */
+    .sidebar {
+        position: fixed !important;
+        top: 0;
+        left: -290px !important; /* FIXED: Changed from -280% to -280px */
+        width: 280px;
+        height: 100vh !important;
+        background: white !important;
+        z-index: 1000000 !important; /* Raised to overlay everything */
+        transition: left 0.3s ease-in-out !important;
+        box-shadow: none !important;
+        /*box-shadow: 15px 0 30px rgba(0,0,0,0.15);*/
+    }
+
+    .sidebar.active {
+        left: 0 !important; /* FIXED: Brings it to the edge smoothly */
+        transform: none;
+        box-shadow: 15px 0 30px rgba(0,0,0,0.15) !important;
+    }
+
+    /* 4. Table & Grid Fix */
+    .course-grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px;
+    }
+
+    .glass-container {
+        overflow-x: auto;
+        border: 1px solid rgba(0,0,0,0.05);
+        padding: 15px;
+    }
+
+    /* 2. Lock the materials card container to force absolute responsive horizontal table scrolling */
+.glass-container.table-responsive {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important; /* Enables clean swipe scroll inside the card block */
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch; /* Butter smooth mobile momentum scroll */
 }
 
-/* Hide mobile header on desktop */
-@media (min-width: 769px) {
-    .mobile-header { display: none; }
+table {
+    width: 100% !important;
+    min-width: 500px; /* Forces full column structure text layout visibility inside slider container */
 }
-/* Fix the header layout on mobile */
-@media (max-width: 768px) {
-    .top-header {
-        flex-direction: column; /* Stack search and profile */
-        gap: 20px; /* Space them apart */
-        align-items: stretch !important;
-        margin-bottom: 25px;
-    }
 
-    .search-bar {
-        width: 100%; /* Search takes full width */
-    }
+}
 
-    .user-profile {
-        justify-content: flex-end; /* Keep profile on the right */
+@media (max-width: 1024px) {
+    .upload-form-row {
+        flex-direction: column !important; 
+        gap: 12px; /* FIXED: Added 'px' unit */
     }
 }
