@@ -17,6 +17,7 @@
 body { 
     background: var(--bg); 
     height: 100vh; 
+    min-height: 100vh;
     overflow: hidden; /* Prevents double scrollbars */
 }
 
@@ -392,6 +393,78 @@ body {
     background: #2980b9;
     transform: scale(1.05);
 }
+
+/* --- DARK MODE TRANSITION OVERLAYS --- */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Mode Theme Variables overrides */
+body.dark-mode {
+    background-color: #1a1a24 !important;
+    color: #f5f6fa !important;
+}
+
+body.dark-mode .main-content {
+    background-color: #1a1a24;
+}
+
+body.dark-mode .sidebar {
+    background-color: #111118;
+    border-right-color: #252538;
+}
+
+/* Updated selector to override your custom inline styles and catch settings-cards */
+body.dark-mode .card, 
+body.dark-mode .info-card, 
+body.dark-mode .view-section,
+body.dark-mode .settings-card {
+    background-color: #222230 !important;
+    color: #ffffff !important;
+    border-color: #2e2e42 !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Fixes form input background fields & dropdown lists */
+body.dark-mode input, 
+body.dark-mode select {
+    background-color: #1a1a24 !important;
+    color: #ffffff !important;
+    border-color: #3d3d5c !important;
+}
+
+body.dark-mode tr {
+    border-bottom-color: #2e2e42 !important;
+    color: #e2eaf1 !important;
+}
+
+/* --- SETTINGS SESSION TARGETED CLEANUP --- */
+body.dark-mode .settings-card h3 {
+    color: #ffffff !important;
+    border-bottom-color: #2e2e42 !important;
+}
+
+body.dark-mode .settings-card label {
+    color: #e2eaf1 !important;
+}
+
+body.dark-mode .settings-card p {
+    color: #a0aec0 !important;
+}
+
+/* Adjusts the container holding your theme toggle button */
+body.dark-mode .settings-card div[style*="background: #f8f9fa"] {
+    background-color: #1a1a24 !important;
+    border-color: #3d3d5c !important;
+}
+
+body.dark-mode #theme-text {
+    color: #ffffff !important;
+}
+
+
+
+
 
 /* --- MODERN RESPONSIVE ENGINE --- */
 

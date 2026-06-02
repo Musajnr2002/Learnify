@@ -16,15 +16,15 @@
 <body>
 
     <div class="mobile-header">
-    <div class="logo">Learnify<span>.</span></div>
-    <div class="header-actions">
-        <span id="mobile-user-name" class="mobile-username">Loading...</span>
-        <div id="mobile-user-initials" class="mobile-initials">--</div>
-        <button id="menu-toggle" class="menu-btn">
-            <i data-lucide="menu"></i>
-        </button>
+        <div class="logo">Learnify<span>.</span></div>
+        <div class="header-actions">
+            <span id="mobile-user-name" class="mobile-username">Loading...</span>
+            <div id="mobile-user-initials" class="mobile-initials">--</div>
+            <button id="menu-toggle" class="menu-btn">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
     </div>
-</div>
 
     <div class="dashboard-wrapper">
         
@@ -36,6 +36,9 @@
                 </a>
                 <a href="#" class="nav-link" data-view="upload-view">
                     <i data-lucide="upload-cloud"></i> Upload Materials
+                </a>
+                <a href="#" class="nav-link" data-view="virtual-sessions-view">
+                    <i data-lucide="video"></i> Virtual Sessions
                 </a>
                 <a href="#" class="nav-link" data-view="attendance-view">
                     <i data-lucide="users"></i> Attendance
@@ -66,6 +69,23 @@
             </div>
 
             <section id="lec-home-view" class="view-section">
+                <div id="live-broadcast-banner" style="display: none; background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; padding: 20px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+                        <div>
+                            <span style="background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 6px;">
+                                🔴 Live Session Active
+                            </span>
+                            <h3 id="live-broadcast-title" style="font-size: 18px; font-weight: 600; margin: 0 0 4px 0;">Course Lecture Is Streaming</h3>
+                            <p id="live-broadcast-host" style="font-size: 13px; margin: 0; opacity: 0.9;">Lecturer: --</p>
+                        </div>
+                        <div>
+                            <a id="live-broadcast-join-btn" href="#" target="_blank" class="banner-btn" style="background: white; color: #e74c3c; padding: 10px 20px; font-weight: 600; text-decoration: none; border-radius: 6px; display: inline-block; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                                Join via Meet / Zoom
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="welcome-banner">
                     <div class="banner-text">
                         <h2 id="welcome-title">Welcome back!</h2>
@@ -84,6 +104,39 @@
                         <h4>Total Materials</h4>
                         <p id="lecturer-total-materials">0</p>
                     </div>
+                </div>
+            </section>
+
+            <section id="virtual-sessions-view" class="view-section" style="display:none;">
+                <div id="lecturer-virtual-panel" class="settings-card" style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); margin-bottom: 24px;">
+                    <h3 style="font-size: 18px; font-weight: 600; color: #2c3e50; margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
+                        <i data-lucide="video" style="color: #e74c3c;"></i> Host a Virtual Session
+                    </h3>
+                    <form id="virtual-session-form" style="display: flex; flex-direction: column; gap: 14px;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+                            <div>
+                                <label style="font-size: 12px; font-weight: 600; color: #7f8c8d; display: block; margin-bottom: 6px;">Course Code</label>
+                                <input type="text" id="vir-course-code" placeholder="e.g. EEE301" required style="width: 100%; padding: 10px; border: 1px solid #e2eaf1; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+                            </div>
+                            <div>
+                                <label style="font-size: 12px; font-weight: 600; color: #7f8c8d; display: block; margin-bottom: 6px;">Target Level</label>
+                                <select id="vir-level" required style="width: 100%; padding: 10px; border: 1px solid #e2eaf1; border-radius: 6px; font-size: 14px; background: white; box-sizing: border-box; height: 38px;">
+                                    <option value="100">100 Level</option>
+                                    <option value="200">200 Level</option>
+                                    <option value="300">300 Level</option>
+                                    <option value="400">400 Level</option>
+                                    <option value="500">500 Level</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label style="font-size: 12px; font-weight: 600; color: #7f8c8d; display: block; margin-bottom: 6px;">Meeting Link (Zoom / Google Meet)</label>
+                            <input type="url" id="vir-url" placeholder="https://meet.google.com/xxx-xxxx-xxx" required style="width: 100%; padding: 10px; border: 1px solid #e2eaf1; border-radius: 6px; font-size: 14px; box-sizing: border-box;">
+                        </div>
+                        <button type="submit" class="banner-btn" style="background: #e74c3c; color: white; padding: 12px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: all 0.2s; width: 100%;">
+                            Broadcast Live Stream Link
+                        </button>
+                    </form>
                 </div>
             </section>
 
@@ -163,42 +216,101 @@
                     </div>
                 </div>
             </section>
+            
 
             <section id="settings-view" class="view-section" style="display:none;">
-                <h2>Profile Settings</h2>
-                <div class="card">
-                    <form id="settings-form" class="upload-form">
-                        <label>Display Name</label>
-                        <input type="text" id="settings-name" placeholder="Full Name" style="width:100%; padding:10px; margin-bottom:10px;">
-                        <button type="submit" class="banner-btn">Save Changes</button>
-                    </form>
+                <div class="view-header" style="margin-bottom: 25px;">
+                    <h2>Account Settings</h2>
+                    <p style="color: #7f8c8d;">Manage your profile attributes, security credentials, and app layout themes.</p>
+                </div>
+
+                <div class="settings-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    
+                    <div class="settings-card" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); box-sizing: border-box;">
+                        <h3 style="margin-top: 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px;">
+                            <i data-lucide="user" style="vertical-align: middle; margin-right: 8px;"></i>User Profile
+                        </h3>
+                        <div style="margin-top: 15px;">
+                            <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #34495e;">Full Name</label>
+                            <input type="text" id="settings-name" readonly style="width: 100%; padding: 10px; border: 1px solid #bdc3c7; border-radius: 6px; background: #f8f9fa; color: #7f8c8d; box-sizing: border-box; margin-bottom: 15px;">
+
+                            <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #34495e;">Email Address</label>
+                            <input type="email" id="settings-email" readonly style="width: 100%; padding: 10px; border: 1px solid #bdc3c7; border-radius: 6px; background: #f8f9fa; color: #7f8c8d; box-sizing: border-box; margin-bottom: 15px;">
+
+                            <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #34495e;">Assigned System Role</label>
+                            <input type="text" id="settings-role" readonly style="width: 100%; padding: 10px; border: 1px solid #bdc3c7; border-radius: 6px; background: #f8f9fa; color: #7f8c8d; box-sizing: border-box; margin-bottom: 15px;">
+
+                            <label style="display: block; font-weight: 600; margin-bottom: 5px; color: #34495e;">Departmental Track / Level</label>
+                            <input type="text" id="settings-level" readonly style="width: 100%; padding: 10px; border: 1px solid #bdc3c7; border-radius: 6px; background: #f8f9fa; color: #7f8c8d; box-sizing: border-box;">
+                        </div>
+                    </div>
+
+                    <div class="settings-card" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box;">
+                        <div>
+                            <h3 style="margin-top: 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px;">
+                                <i data-lucide="shield-lock" style="vertical-align: middle; margin-right: 8px;"></i>Security Matrix
+                            </h3>
+                            <p style="font-size: 0.9rem; color: #7f8c8d; line-height: 1.5; margin-top: 15px;">
+                                To update your account password securely, click the verification button below. Learnify will trigger an official password reset credential protocol straight to your registered institutional inbox.
+                            </p>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <button id="btn-reset-password" type="button" style="width: 100%; padding: 12px; background: #2980b9; color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s;">
+                                Trigger Security Reset Email
+                            </button>
+                            <p id="security-status-msg" style="margin-top: 10px; font-size: 0.85rem; text-align: center; font-weight: bold; display: none;"></p>
+                        </div>
+                    </div>
+
+                    <div class="settings-card" style="background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box;">
+                        <div>
+                            <h3 style="margin-top: 0; color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 10px;">
+                                <i data-lucide="palette" style="vertical-align: middle; margin-right: 8px;"></i>App Preferences
+                            </h3>
+                            <p style="font-size: 0.9rem; color: #7f8c8d; line-height: 1.5; margin-top: 15px;">
+                                Toggle your visual rendering environment. Choosing Dark Theme reconfigures interface stylesheets to optimize screen emission parameters during low-light operation.
+                            </p>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; background: #f8f9fa; padding: 12px; border-radius: 8px; border: 1px solid #e2eaf1;">
+                                <button id="theme-toggle" class="nav-link" style="border: none; background: transparent; cursor: pointer; width: 100%; text-align: left; display: flex; align-items: center; gap: 10px; padding: 0;">
+                                    <i data-lucide="moon" id="theme-icon"></i>
+                                    <span id="theme-text" style="font-weight: 600; color: #34495e;">Dark Mode</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </section>
 
+        
         </main>
 
         <aside class="right-panel">
             <div class="right-panel-activity">
-    <div class="meta-card">
-        <i class="shield-icon"></i>
-        <div>
-            <h4>System Role</h4>
-            <p id="system-role-text" style="font-weight: 700; color: #2c3e50;">Detecting...</p>
-        </div>
-    </div>
+                <div class="meta-card">
+                    <i class="shield-icon"></i>
+                    <div>
+                        <h4>System Role</h4>
+                        <p id="system-role-text" style="font-weight: 700; color: #2c3e50;">Detecting...</p>
+                    </div>
+                </div>
 
-    <div class="activity-box">
-        <h4>Activity</h4>
-        <div class="progress-ring-circle" style="width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: conic-gradient(#e2eaf1 0deg, #e2eaf1 360deg); margin: 15px auto; position: relative;">
-            <div style="width: 84px; height: 84px; background: white; border-radius: 50%; position: absolute; display: flex; align-items: center; justify-content: center;">
-                <span id="activity-percentage-text" style="font-size: 1.2rem; font-weight: 700; color: #2c3e50;">0%</span>
+                <div class="activity-box">
+                    <h4>Activity</h4>
+                    <div class="progress-ring-circle" style="width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: conic-gradient(#e2eaf1 0deg, #e2eaf1 360deg); margin: 15px auto; position: relative;">
+                        <div style="width: 84px; height: 84px; background: white; border-radius: 50%; position: absolute; display: flex; align-items: center; justify-content: center;">
+                            <span id="activity-percentage-text" style="font-size: 1.2rem; font-weight: 700; color: #2c3e50;">0%</span>
+                        </div>
+                    </div>
+                    <p style="text-align: center; font-size: 0.85rem; color: #7f8c8d; margin-top: 8px;">Term Progress</p>
+                </div>
             </div>
-        </div>
-        <p style="text-align: center; font-size: 0.85rem; color: #7f8c8d; margin-top: 8px;">Term Progress</p>
-    </div>
-</div>
         </aside>
 
-    </div> <script type="module" src="dashboard.js"></script>
+    </div> 
+    <script type="module" src="dashboard.js"></script>
     <script>lucide.createIcons();</script>
 </body>
+</html>
