@@ -188,34 +188,60 @@
             </section>
 
             <section id="attendance-view" class="view-section" style="display:none;">
-                <div class="card">
-                    <h3><i data-lucide="clock"></i> Start New Class Session</h3>
-                    <form id="attendance-session-form" class="upload-form">
-                        <input type="text" id="att-course-code" placeholder="Course Code" required style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
-                        <select id="att-level" required style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
-                            <option value="">Select Level</option>
-                            <option value="100">100 Level</option>
-                            <option value="200">200 Level</option>
-                            <option value="300">300 Level</option>
-                            <option value="400">400 Level</option>
-                        </select>
-                        <button type="submit" class="banner-btn" style="width: 100%; margin-top: 20px; background: #2ecc71; color: white; font-weight: 600;">
-                         Open Attendance Session
-                       </button>
-                    </form>
-                </div>
-                <div class="card" style="margin-top: 20px;">
-                    <h3>Your Active Sessions</h3>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr><th>Course</th><th>Level</th><th>Status</th><th>Action</th></tr>
-                            </thead>
-                            <tbody id="active-sessions-list"></tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
+    
+    <div class="card" style="margin-bottom: 20px;">
+        <h3 id="active-live-session-title" style="display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="activity" style="color: #27ae60;"></i> Active Monitoring Stream: None
+        </h3>
+        <div style="margin-bottom: 15px; font-size: 15px;">
+            Students Present: <span id="live-present-count-text" style="font-weight:bold; color:#27ae60; font-size: 1.2rem;">0</span>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Time Verified</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="live-attendance-roster-body">
+                    <tr><td colspan="3" style="text-align: center; color: #7f8c8d; padding: 20px;">No active class running. Open a session below.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3><i data-lucide="clock"></i> Start New Class Session</h3>
+        <form id="attendance-session-form" class="upload-form">
+            <input type="text" id="att-course-code" placeholder="Course Code" required style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+            <select id="att-level" required style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+                <option value="">Select Level</option>
+                <option value="100">100 Level</option>
+                <option value="200">200 Level</option>
+                <option value="300">300 Level</option>
+                <option value="400">400 Level</option>
+                <option value="500">500 Level</option> </select>
+            <button type="submit" class="banner-btn" style="width: 100%; margin-top: 20px; background: #2ecc71; color: white; font-weight: 600;">
+                Open Attendance Session
+            </button>
+        </form>
+    </div>
+
+    <div class="card" style="margin-top: 20px;">
+        <h3>Your Active Sessions</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr><th>Course</th><th>Level</th><th>Status</th><th>Action</th></tr>
+                </thead>
+                <tbody id="active-sessions-list"></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+                
             
 
             <section id="settings-view" class="view-section" style="display:none;">

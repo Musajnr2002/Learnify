@@ -107,23 +107,47 @@ signupForm.addEventListener('submit', async (e) => {
                 window.location.href = (role === 'lecturer') ? "lecturer-dashboard.html" : "dashboard.html";
             }
         } else {
+            // ==========================================================
+            // MASTER PASSCODE SECURITY SHIELD
+            // ==========================================================
+            let assignedRole = 'student'; // Everyone defaults to student status for safety
+
+            if (pageType === 'lecturer') {
+                // Intercept submission with a secure popup prompt
+                const staffKey = prompt("Verification Required:\nEnter the Official Faculty Access Passcode to register as Staff.");
+                
+                // Define your secret master passcode here (Keep this confidential)
+                const MASTER_LECTURER_KEY = "STAFF-2026-SECURE"; 
+
+                // Validate the entered passcode
+                if (staffKey === MASTER_LECTURER_KEY) {
+                    assignedRole = 'lecturer'; // Key matches! Elevate to Lecturer status
+                } else {
+                    // Stop registration instantly if the key is wrong, empty, or canceled
+                    throw new Error("Invalid or missing Faculty Access Passcode. Registration Aborted.");
+                }
+            }
+
+            // --- ACCOUNT CREATION AFTER PASSING SHIELD ---
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             const fullName = document.getElementById('full-name').value.trim();
             const dept = document.getElementById('department').value;
             const level = (pageType === 'student') ? document.getElementById('level').value : "Staff";
 
+            // Save the finalized profile parameters securely to Firestore
             await setDoc(doc(db, "users", user.uid), {
                 uid: user.uid,
                 name: fullName,
                 email: email,
                 dept: dept,
                 level: level, 
-                role: pageType, 
+                role: assignedRole, // Enforced by our passcode gate logic
                 createdAt: new Date()
             });
 
-            window.location.href = (pageType === 'lecturer') ? "lecturer-dashboard.html" : "dashboard.html";
+            // Redirect smoothly to the correct dashboard path
+            window.location.href = (assignedRole === 'lecturer') ? "lecturer-dashboard.html" : "dashboard.html";
         }
     } catch (error) {
         alert("Auth Error: " + error.message);

@@ -54,12 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (role === "lecturer") {
                     setupLecturerLogic();
-
                 } else {
                     setupStudentLogic(userLevel); 
                     
                     // --- LIVE STUDENT SEMESTER PROGRESS METRIC ---
-                    // Keeping the snapshot listener scoped beautifully for the student profile target view
                     const studentMatQ = query(
                         collection(db, "materials"), 
                         where("level", "==", userLevel)
@@ -67,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     onSnapshot(studentMatQ, (snap) => {
                         const currentUploads = snap.size;
-                        const targetGoal = 10; // Match course metric target assignment milestones
+                        const targetGoal = 10; 
                         
                         const percentage = Math.min(Math.round((currentUploads / targetGoal) * 100), 100);
                         
@@ -199,6 +197,71 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        // === UPSTREAM SYSTEM SYNC: LIVE ATTENDANCE MONITOR FOR LECTURERS ===
+        let activeLiveRosterUnsubscribe = null;
+        const activeLecturerSessionQ = query(
+            collection(db, "attendance_sessions"),
+            where("lecturerId", "==", auth.currentUser.uid),
+            where("status", "==", "active"),
+            orderBy("createdAt", "desc")
+        );
+
+        onSnapshot(activeLecturerSessionQ, (sessionSnap) => {
+            const rosterContainer = document.getElementById("live-attendance-roster-body");
+            const liveCountText = document.getElementById("live-present-count-text");
+            
+            // Clean out old active subscriptions if existing session changes
+            if (activeLiveRosterUnsubscribe) {
+                activeLiveRosterUnsubscribe();
+                activeLiveRosterUnsubscribe = null;
+            }
+
+            if (sessionSnap.empty) {
+                if (rosterContainer) {
+                    rosterContainer.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #7f8c8d; padding: 15px;">No active class running. Open a session below.</td></tr>`;
+                }
+                if (liveCountText) liveCountText.innerText = "0";
+                return;
+            }
+
+            const activeSessionDocId = sessionSnap.docs[0].id;
+            const activeSessionData = sessionSnap.docs[0].data();
+
+            // Notify lecturer which course is currently receiving check-ins
+            const sessionTitleEl = document.getElementById("active-live-session-title");
+            if (sessionTitleEl) {
+                sessionTitleEl.innerText = `Active Monitoring Stream: ${activeSessionData.courseCode}`;
+            }
+
+            // Hook down a deep stream pipe looking straight into the sub-collection checkins
+            const liveCheckinsRef = collection(db, "attendance_sessions", activeSessionDocId, "checkins");
+            const liveCheckinsQuery = query(liveCheckinsRef, orderBy("timestamp", "desc"));
+
+            activeLiveRosterUnsubscribe = onSnapshot(liveCheckinsQuery, (checkinSnap) => {
+                if (liveCountText) {
+                    liveCountText.innerText = checkinSnap.size; // Push real-time count badge up
+                }
+
+                if (!rosterContainer) return;
+
+                if (checkinSnap.empty) {
+                    rosterContainer.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #e67e22; font-weight: 600; padding: 15px;">Session active. Waiting for students to verify...</td></tr>`;
+                    return;
+                }
+
+                rosterContainer.innerHTML = checkinSnap.docs.map(studentDoc => {
+                    const s = studentDoc.data();
+                    return `
+                        <tr class="table-row-anim" style="border-left: 4px solid #27ae60;">
+                            <td><strong>${s.name || "Unknown Student"}</strong></td>
+                            <td>${s.time || "---"}</td>
+                            <td><span style="background: #2ec4b6; color: white; padding: 4px 8px; border-radius: 4px; font-size: 0.85rem; font-weight: 600;">${s.status || "Present"}</span></td>
+                        </tr>
+                    `;
+                }).join('');
+            });
+        });
+
         // === 2. MATERIAL UPLOAD FORM ===
         const uploadForm = document.getElementById('upload-material-form');
         if (uploadForm) {
@@ -320,8 +383,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 const sessionData = sessionDoc.data();
 
                 const durationLimit = 30 * 60 * 1000; 
-                const startTime = sessionData.createdAt ? sessionData.createdAt.toMillis() : Date.now();
-                const isExpired = Date.now() - startTime > durationLimit;
+               
+                // === ⚠️ FIXED EXPIRATION TIMER ENGINE ===
+                // If createdAt is null, it's still generating on the server. Bypasses immediate expiration.
+                let isExpired = false;
+                if (!sessionData.createdAt) {
+                    // Keep it active while the cloud database finishes processing the write payload
+                    isExpired = false; 
+                } else {
+                    const startTime = sessionData.createdAt.toMillis();
+                    isExpired = (Date.now() - startTime) > durationLimit;
+                }
+                // ===================================================
 
                 if(activeCard) activeCard.style.display = 'block';
                 if(noSessionMsg) noSessionMsg.style.display = 'none';
@@ -440,10 +513,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (!themeBtn) return;
 
-        // Check local storage or default to light mode
         const currentTheme = localStorage.getItem('learnify-theme') || 'light';
         
-        // Apply saved theme on startup
         if (currentTheme === 'dark') {
             document.body.classList.add('dark-mode');
             if (themeText) themeText.innerText = "Light Mode";
@@ -454,25 +525,20 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
             
-            // Save state to local storage
             localStorage.setItem('learnify-theme', isDark ? 'dark' : 'light');
             
-            // Update Text & Icons dynamically
             if (themeText) themeText.innerText = isDark ? "Light Mode" : "Dark Mode";
             
             if (themeIcon && window.lucide) {
                 themeIcon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
-                lucide.createIcons(); // Refresh Lucide on the fly
+                lucide.createIcons(); 
             }
         });
 
-        // Sync the new settings theme button with your master theme toggle logic
         document.getElementById('theme-toggle-settings')?.addEventListener('click', () => {
-            // Dynamically trigger your existing theme toggle click configuration
             if (themeBtn) {
                 themeBtn.click();
             } else {
-                // Fallback if your theme engine updates a body class directly
                 document.body.classList.toggle('dark-mode');
                 localStorage.setItem('learnify-theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
             }
@@ -500,7 +566,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- 8. INITIALIZE RUNTIME ENGINES ---
-    initThemeEngine(); // Fires the dark mode system engine immediately on DOM mount
+    initThemeEngine(); 
     if (window.lucide) {
         lucide.createIcons();
     }

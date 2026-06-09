@@ -374,6 +374,25 @@ body {
     border-bottom: 1px solid #f1f1f1;
 }
 
+/* Style for the Mark Present button inside the attendance card */
+.attendance-card button, 
+.mark-present-btn {
+    background-color: #28a745; /* Solid green matching your theme */
+    color: #ffffff;            /* Crisp white text */
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.attendance-card button:hover, 
+.mark-present-btn:hover {
+    background-color: #218838; /* Slightly darker green on hover */
+}
+
 /* Make the 'Status' column stand out */
 .table-responsive td:last-child {
     font-weight: 600;
